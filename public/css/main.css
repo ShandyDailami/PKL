@@ -1,0 +1,171 @@
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.modal {
+  z-index: 2050 !important;
+  position: fixed;
+}
+
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.navbar {
+  z-index: 1030;
+}
+
+.sidebar {
+  z-index: 1030;
+}
+
+.f-main {
+  color: #0062C0;
+}
+
+.itemsView {
+  height: 100vh;
+}
+
+.btn-login {
+  color: #fff;
+  background-color: #1785EB !important;
+  font-weight: 500;
+  outline: none;
+}
+
+.btn-login:hover {
+  color: #fff;
+  background-color: #167ad8 !important;
+}
+
+.btn-main-active {
+  color: #000;
+  background-color: #78B2E3 !important;
+}
+
+.btn-main-active:hover,
+.btn-main-active:active {
+  color: #000;
+  background-color: #6fa3ce !important;
+}
+
+.btn-main {
+  color: #000;
+}
+
+.btn-sec {
+  color: white;
+  background-color: #00325C !important;
+}
+
+.btn-sec:hover {
+  color: white;
+  background-color: #004074 !important;
+}
+
+.btn-logout {
+  background-color: rgb(255, 206, 206);
+}
+
+.btn-logout:hover {
+  background-color: rgb(255, 177, 177);
+}
+
+.btn-main:hover {
+  color: #000;
+  background-color: #78B2E3;
+}
+
+.btn-main:active {
+  color: #000;
+  background-color: #78B2E3;
+}
+
+.bg-main {
+  background-color: #ABC9E2;
+}
+
+.bg-sec {
+  background-color: #00325C;
+}
+
+.position-fixed {
+  z-index: 2000 !important;
+}
+
+.flash-message {
+  transform: translateY(-20px);
+  transition: .5s ease, opacity .5s ease;
+  opacity: 0;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.flash-message.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.flash-message.hide {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.card-body {
+  z-index: 1;
+}
+
+.login-title {
+  font-weight: 700;
+  font-style: normal;
+}
+
+.line {
+  height: 1px;
+  width: 60px;
+  background-color: #1785EB;
+}
+
+.input {
+  width: 100%;
+  padding-bottom: 15px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #D9D9D9;
+}
+
+.table-custom {
+  overflow: hidden;
+}
+
+.table-custom thead th {
+  background-color: #D9D9D9;
+  color: #000;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-custom th,
+.table-custom td {
+  border: 1px solid #e9ecef;
+}
+
+.table-custom tbody tr {
+  border-color: #FAFAFA;
+}
+
+.table-custom tbody tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color .3s ease;
+}
+
+td {
+  vertical-align: middle;
+  font-size: small;
+}
+
+#map {
+  height: 400px;
+}
