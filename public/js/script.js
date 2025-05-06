@@ -153,26 +153,48 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const selectType = document.getElementById('jenisPerangkat');
-  const deviceName = document.getElementById('namaPerangkat');
-  const devicePassword = document.getElementById('passwordPerangkat');
+// document.addEventListener('DOMContentLoaded', () => {
+//   const selectType = document.getElementById('pilihJenisPerangkat');
+//   const deviceName = document.getElementById('namaPerangkat');
+//   const devicePassword = document.getElementById('passwordPerangkat');
 
-  function toggleDisable() {
-    const selectedValue = selectType.value;
+//   function toggleDisable() {
+//     const selectedValue = selectType.value;
 
-    if (selectedValue === '1' || selectedValue === '2') {
-      deviceName.disabled = true;
-      deviceName.value = '';
-      devicePassword.disabled = true;
-      devicePassword.value = '';
+//     if (selectedValue === '3') {
+//       deviceName.disabled = false;
+//       devicePassword.disabled = false;
+//     } else {
+//       deviceName.disabled = true;
+//       devicePassword.disabled = true;
+//     }
+//   }
+//   toggleDisable();
+//   selectType.addEventListener('change', toggleDisable);
+// });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const kondisiSelect = document.getElementById('kondisi');
+  const kananDiv = document.getElementById('kanan');
+  const kiriDiv = document.getElementById('kiri');
+
+  function toggleKanan() {
+    const selectedOption = kondisiSelect.options[kondisiSelect.selectedIndex];
+    const selectedText = selectedOption.text.toLowerCase();
+
+    if (selectedText.includes('tidak terpasang')) {
+      kananDiv.style.display = 'none';
+      kiriDiv.classList.remove('col-md-6');
+      kiriDiv.classList.add('col-md-12');
     } else {
-      deviceName.disabled = false;
-      devicePassword.disabled = false;
+      kananDiv.style.display = 'block';
+      kiriDiv.classList.remove('col-md-12');
+      kiriDiv.classList.add('col-md-6');
     }
   }
-  toggleDisable();
-  selectType.addEventListener('change', toggleDisable);
+
+  toggleKanan();
+  kondisiSelect.addEventListener('change', toggleKanan);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -255,10 +277,10 @@ fetch('/devices')
         icon = blueIcon;
       }
 
-      let popupContent = `<b style="text-transform: capitalize;">${device.jenis}</b><br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}"><br>${device.tempat}<br>Lantai ${device.lantai}`;
+      let popupContent = `<b style="text-transform: capitalize;">${device.jenis_nama}</b><br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}"><br>${device.tempat}<br>Lantai ${device.lantai}`;
 
       if (device.jenis_id.toLowerCase() === '3') {
-        popupContent = `<b style="text-transform: capitalize;">${device.nama} (AP)</b><br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}"><br>${device.tempat}<br>Lantai ${device.lantai}`;
+        popupContent = `<b style="text-transform: capitalize;">${device.SSID} (AP)</b><br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}"><br>${device.tempat}<br>Lantai ${device.lantai}`;
       }
 
       L.marker([device.latitude, device.longitude], { icon })

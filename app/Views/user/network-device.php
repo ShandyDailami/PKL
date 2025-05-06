@@ -36,31 +36,32 @@
             <div class="col-sm-3">
               <div class="card text-center">
                 <img src="<?php echo base_url('uploads/' . $device['gambar']); ?>" class="card-img-top px-2 pt-2"
-                  style="height: 150px;" alt="...">
+                  style="height: 150px; object-fit: cover" alt="...">
                 <div class="card-body">
                   <h5 class="card-title fw-bold" style="text-transform: capitalize;">
+                    <?= esc($device['jenis_nama']) ?>
                     <?php if (strtolower(esc($device['jenis_nama'])) !== 'access point'): ?>
-                      <?= esc($device['jenis_nama']) ?>
                     <?php else: ?>
-                      <?= esc($device['nama']) ?>
                     <?php endif ?>
                   </h5>
                   <div class="d-flex flex-column">
-                    <p class="card-text text-capitalize m-0">Tempat : <?= esc($device['tempat']) ?></p>
-                    <p class="card-text text-capitalize m-0">Status : <?= esc($device['status_nama']) ?></p>
+                    <p class="card-text text-capitalize fs-6 m-0">SSID: <?= esc($device['SSID']) ?></p>
+                    <p class="card-text text-capitalize fs-6 m-0"><?= esc($device['tempat']) ?></p>
+                    <p class="card-text text-capitalize fs-6 m-0">Status : <?= esc($device['status_nama']) ?></p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="mt-2">
-              <?= $pager->links('default', 'pagination') ?>
-            </div>
           <?php endforeach ?>
+          <div class="mt-2">
+            <?= $pager->links('default', 'pagination') ?>
+          </div>
         <?php else: ?>
           <p class="text-center">Data tidak ditemukan</p>
         <?php endif ?>
       </div>
-      <div class="card">
+      <div class="card mt-3 p-3">
+        <p class="fw-bold">Mapping</p>
         <div id="map" class="rounded"></div>
       </div>
     </div>

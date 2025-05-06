@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Jenis extends Migration
+class AutentikasiPerangkat extends Migration
 {
     public function up()
     {
@@ -15,18 +15,21 @@ class Jenis extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'nama' => [
+            'SSID' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
         ]);
-
         $this->forge->addPrimaryKey('id');
-        $this->forge->createTable('jenis');
+        $this->forge->createTable('autentikasi_perangkat');
     }
 
     public function down()
     {
-        $this->forge->dropTable('jenis');
+        $this->forge->dropTable('autentikasi_perangkat');
     }
 }

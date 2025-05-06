@@ -32,31 +32,30 @@
       <div class="row d-flex py-4 flex-row">
         <?php if (!empty($items)): ?>
           <?php foreach ($items as $item): ?>
-            <div class="col-sm-3">
+            <div class="col-sm-3 d-flex flex-row">
               <div class="card text-center">
                 <img src="<?php echo base_url('uploads/' . $item['gambar']); ?>" class="rounded px-2 pt-2"
-                  style="height: 150px; object-fit: cover" alt="<?= esc($item['nama']) ?>">
+                  style="height: 150px; object-fit: cover" alt="<?= esc($item['jenis_nama']) ?>">
                 <div class="card-body">
                   <h5 class="card-title fw-bold">
-                    <?php if (strtolower(esc($item['nama'])) !== 'access point'): ?>
+                    <?php if (strtolower(esc($item['jenis_nama'])) !== 'access point'): ?>
                       <?= esc($item['jenis_nama']) ?>
-                      <?= esc($item['tipe']) ?>
+                      <?= esc($item['merek']) ?>
                     <?php else: ?>
-                      <?= esc($item['nama']) ?>
+                      <?= esc($item['jenis_nama']) ?>
                     <?php endif ?>
                   </h5>
                   <div class="d-flex align-items-center flex-column">
-                    <p class="card-text m-0">Banyaknya : <?= esc($item['kuantitas']) ?></p>
+                    <p class="card-text m-0">SSID : <?= esc($item['SSID']) ?></p>
                     <p class="card-text m-0">Status : <?= esc($item['status_nama']) ?></p>
-                    <p class="card-text m-0">Tempat : <?= esc($item['tempat']) ?></p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="mt-2">
-              <?= $pager->links('default', 'pagination') ?>
-            </div>
           <?php endforeach ?>
+          <div class="mt-2">
+            <?= $pager->links('default', 'pagination') ?>
+          </div>
         <?php else: ?>
           <p class="text-center">Data tidak ditemukan</p>
         <?php endif ?>

@@ -18,10 +18,7 @@ class Inventaris extends Seeder
                 'gambar' => 'AccessPoint1.jpg',
                 'kondisi_id' => 1,
                 'status_id' => 1,
-                'kuantitas' => '1',
-                'latitude' => '-3.44574',
-                'longitude' => '114.840613',
-                'lantai' => '1',
+                'lokasi_id' => '',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
@@ -33,10 +30,7 @@ class Inventaris extends Seeder
                 'gambar' => 'Switch1.jpg',
                 'kondisi_id' => 2,
                 'status_id' => 1,
-                'kuantitas' => '1',
-                'latitude' => '-3.44574',
-                'longitude' => '114.840613',
-                'lantai' => '1',
+                'lokasi_id' => '',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
         ];

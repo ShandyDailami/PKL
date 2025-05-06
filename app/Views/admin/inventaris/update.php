@@ -51,14 +51,14 @@
               </select>
             </div>
             <div class="mb-3">
-              <label for="tipe" class="form-label">Tipe</label>
-              <input type="text" id="tipe" name="tipe" class="form-control" value="<?= esc($inventaris['tipe']) ?>"
-                placeholder="Masukkan Tipe">
+              <label for="merek" class="form-label">Merek</label>
+              <input type="text" id="merek" name="merek" class="form-control" value="<?= esc($inventaris['merek']) ?>"
+                placeholder="Masukkan Merek">
             </div>
             <div class="mb-3">
               <label for="namaPerangkat" class="form-label">Nama Perangkat</label>
-              <input type="text" class="form-control" id="namaPerangkat" name="nama"
-                value="<?= esc($inventaris['nama']) ?>" placeholder="Masukkan Nama Perangkat">
+              <input type="text" class="form-control" id="namaPerangkat" name="SSID"
+                value="<?= esc($inventaris['SSID']) ?>" placeholder="Masukkan SSID Perangkat">
             </div>
             <div class="mb-3">
               <label for="passwordPerangkat" class="form-label">Password</label>
@@ -91,11 +91,6 @@
                 <?php endforeach ?>
 
               </select>
-            </div>
-            <div class="mb-3">
-              <label for="kuantitas" class="form-label">Kuantitas</label>
-              <input type="text" id="kuantitas" name="kuantitas" class="form-control"
-                value="<?= esc($inventaris['kuantitas']) ?>" placeholder="Masukkan Kuantitas">
             </div>
             <div class="mb-3">
               <label for="latitude" class="form-label">Latitude</label>

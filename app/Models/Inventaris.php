@@ -10,25 +10,22 @@ class Inventaris extends Model
     const KONDISI_INVENTARIS = 2;
     protected $table = 'inventaris';
     protected $allowedFields = [
-        'tempat',
         'jenis_id',
-        'tipe',
-        'nama',
-        'password',
-        'gambar',
         'kondisi_id',
+        'merek',
+        'autentikasi_perangkat_id',
+        'gambar',
         'status_id',
-        'kuantitas',
-        'latitude',
-        'longitude',
-        'lantai'
+        'lokasi_id',
     ];
 
     public function dataJoin()
     {
-        return $this->select('inventaris.*, kondisi.nama AS kondisi_nama, jenis.nama AS jenis_nama, status.nama AS status_nama')
+        return $this->select('inventaris.*, kondisi.nama AS kondisi_nama, jenis.nama AS jenis_nama, status.nama AS status_nama, lokasi.tempat AS tempat, lokasi.latitude AS latitude, lokasi.longitude AS longitude, lokasi.lantai AS lantai, autentikasi_perangkat.SSID AS SSID, autentikasi_perangkat.password AS password')
             ->join('kondisi', 'kondisi.id = inventaris.kondisi_id')
             ->join('jenis', 'jenis.id = inventaris.jenis_id')
-            ->join('status', 'status.id = inventaris.status_id');
+            ->join('status', 'status.id = inventaris.status_id')
+            ->join('lokasi', 'lokasi.id = inventaris.lokasi_id', 'left')
+            ->join('autentikasi_perangkat', 'autentikasi_perangkat.id = inventaris.autentikasi_perangkat_id', 'left');
     }
 }

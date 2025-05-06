@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="table-responsive">
-            <table class="table table-custom table-hover table-bordered" style="  width: 100%; min-width: 1200px;">
+            <table class="table table-custom table-hover table-bordered" style="  width: 100%;">
               <thead>
                 <tr>
                   <th scope="col">No</th>
@@ -60,11 +60,7 @@
                   <th scope="col">Nama Perangkat</th>
                   <th scope="col">Kata Sandi</th>
                   <th scope="col">Gambar</th>
-                  <th scope="col">Kondisi</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Kuantitas</th>
-                  <th scope="col">Latitude</th>
-                  <th scope="col">Longitude</th>
                   <th scope="col">Lantai</th>
                   <th scope="col">Aksi</th>
                 </tr>
@@ -76,16 +72,12 @@
                       <td><?= $index + 1 ?></td>
                       <td><?= esc($device['tempat']) ?></td>
                       <td><?= esc($device['jenis_nama']) ?></td>
-                      <td><?= esc($device['tipe']) ?></td>
-                      <td><?= esc($device['nama']) ?></td>
+                      <td><?= esc($device['merek']) ?></td>
+                      <td><?= esc($device['SSID']) ?></td>
                       <td><?= esc($device['password']) ?></td>
                       <td><img class="img-rounded" src="<?= base_url('uploads/' . $device['gambar']) ?>"
                           style="height: 100px;" alt=""></td>
-                      <td><?= esc($device['kondisi_nama']) ?></td>
                       <td><?= esc($device['status_nama']) ?></td>
-                      <td><?= esc($device['kuantitas']) ?></td>
-                      <td><?= esc($device['latitude']) ?></td>
-                      <td><?= esc($device['longitude']) ?></td>
                       <td><?= esc($device['lantai']) ?></td>
                       <td>
                         <button id="editDevice" data-id="<?= esc($device['id']) ?>"

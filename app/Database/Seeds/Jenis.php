@@ -9,9 +9,15 @@ class Jenis extends Seeder
     public function run()
     {
         $data = [
-            ['nama' => 'Router'],
-            ['nama' => 'Switch'],
-            ['nama' => 'Access Point'],
+            [
+                'nama' => 'Router',
+            ],
+            [
+                'nama' => 'Switch',
+            ],
+            [
+                'nama' => 'Access Point',
+            ],
         ];
         $this->db->table('jenis')->insertBatch($data);
     }

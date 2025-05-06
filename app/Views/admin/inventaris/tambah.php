@@ -19,7 +19,7 @@
   <?php endif ?>
 </div>
 
-<div class="container-fluid" style="padding-top: 60px;">
+<div class="container-fluid" style="padding-top: 50px;">
   <div class="row">
 
     <div class="col-3 px-3 pt-4 position-fixed" style="height: 100vh; top: 50px; overflow-y: auto;">
@@ -37,8 +37,8 @@
             class="px-2 bi bi-door-open-fill"></i>Logout</a>
       </div>
     </div>
-    <div class="offset-3 col-9">
-      <div class="card mx-auto border-0" style="max-width: 900px;">
+    <div class="offset-3 col-9 py-3 bg-main">
+      <div class="p card mx-auto border-0" style="max-width: 900px;">
         <div class="card-body">
           <div class="card-title mb-5 d-flex flex-column align-items-center">
             <h5 class="login-title">Tambah</h5>
@@ -47,39 +47,40 @@
 
           <form action="/admin/dashboard/inventaris/tambah" method="post" enctype="multipart/form-data">
             <?= csrf_field() ?>
+            <div class="mb-3">
+              <label for="pilihJenisPerangkat" class="form-label">Jenis Perangkat</label>
+              <select class="form-select" name="jenis_id" id="pilihJenisPerangkat">
+                <option selected disabled value="">Pilih Jenis</option>
+                <?php foreach ($types as $index => $type): ?>
+                  <option value="<?= $index + 1 ?>" <?= old('jenis_id') == $index + 1 ? 'selected' : '' ?>>
+                    <?= esc($type['nama']) ?>
+                  </option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="kondisi" class="form-label">Kondisi</label>
+              <select class="form-select" name="kondisi_id" id="kondisi">
+                <option selected disabled>Pilih Kondisi</option>
+                <?php foreach ($conditions as $index => $condition): ?>
+                  <option value="<?= $index + 1 ?>" <?= old('kondisi_id') == $index + 1 ? 'selected' : '' ?>>
+                    <?= esc($condition['nama']) ?>
+                  </option>
+                <?php endforeach ?>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="merek" class="form-label">Merek Perangkat</label>
+              <input type="text" class="form-control" id="merek" name="merek" value="<?= old('merek') ?>"
+                placeholder="Masukkan Merek Perangkat">
+            </div>
+
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-6" id="kiri">
                 <div class="mb-3">
-                  <label for="kondisi" class="form-label">Kondisi</label>
-                  <select class="form-select" name="kondisi_id" id="kondisi">
-                    <option selected disabled>Pilih Kondisi</option>
-                    <?php foreach ($conditions as $index => $condition): ?>
-                      <option value="<?= $index + 1 ?>" <?= old('kondisi_id') == $index + 1 ? 'selected' : '' ?>>
-                        <?= esc($condition['nama']) ?>
-                      </option>
-                    <?php endforeach ?>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="jenisPerangkat" class="form-label">Jenis Perangkat</label>
-                  <select class="form-select" name="jenis_id" id="jenisPerangkat">
-                    <option selected disabled value="">Pilih Jenis</option>
-                    <?php foreach ($types as $index => $type): ?>
-                      <option value="<?= $index + 1 ?>" <?= old('jenis_id') == $index + 1 ? 'selected' : '' ?>>
-                        <?= esc($type['nama']) ?>
-                      </option>
-                    <?php endforeach ?>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="tipe" class="form-label">Tipe</label>
-                  <input type="text" id="tipe" name="tipe" class="form-control" value="<?= old('tipe') ?>"
-                    placeholder="Masukkan Tipe">
-                </div>
-                <div class="mb-3">
-                  <label for="namaPerangkat" class="form-label">Nama Perangkat</label>
-                  <input type="text" class="form-control" id="namaPerangkat" name="nama" value="<?= old('nama') ?>"
-                    placeholder="Masukkan Nama Perangkat">
+                  <label for="namaPerangkat" class="form-label">SSID</label>
+                  <input type="text" class="form-control" id="namaPerangkat" name="SSID" value="<?= old('SSID') ?>"
+                    placeholder="Masukkan SSID">
                 </div>
                 <div class="mb-3">
                   <label for="passwordPerangkat" class="form-label">Password</label>
@@ -89,14 +90,6 @@
                 <div class="mb-3">
                   <label for="gambar" class="form-label">Gambar</label>
                   <input type="file" id="gambar" name="gambar" class="form-control">
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="tempat" class="form-label">Tempat</label>
-                  <input type="text" id="tempat" name="tempat" class="form-control" value="<?= old('tempat') ?>"
-                    placeholder="Masukkan Tempat">
                 </div>
                 <div class="mb-3">
                   <label for="status" class="form-label">Status</label>
@@ -109,10 +102,13 @@
                     <?php endforeach ?>
                   </select>
                 </div>
+              </div>
+
+              <div class="col-md-6" id="kanan">
                 <div class="mb-3">
-                  <label for="kuantitas" class="form-label">Kuantitas</label>
-                  <input type="text" id="kuantitas" name="kuantitas" class="form-control"
-                    value="<?= old('kuantitas') ?>" placeholder="Masukkan Kuantitas">
+                  <label for="tempat" class="form-label">Tempat</label>
+                  <input type="text" id="tempat" name="tempat" class="form-control" value="<?= old('tempat') ?>"
+                    placeholder="Masukkan Tempat">
                 </div>
                 <div class="mb-3">
                   <label for="latitude" class="form-label">Latitude</label>
@@ -138,6 +134,8 @@
 
             <div class="d-flex justify-content-evenly mt-4">
               <button type="submit" name="submit" class="btn rounded-pill btn-primary w-auto mb-3">Tambah</button>
+              <a href="/admin/dashboard/inventaris/import"
+                class="btn rounded-pill btn-secondary w-auto mb-3">Kembali</a>
             </div>
 
           </form>

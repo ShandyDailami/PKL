@@ -96,7 +96,7 @@ function formatTanggal($tanggal)
   <h2 class="f-main">Data Perangkat Jaringan</h2>
   <p style="padding: 0; margin: 0;">Hari/Tanggal: <?= formatTanggal(date('d-m-Y')) ?></p>
   <div" class="table-custom">
-    <table style="margin: 0;">
+    <table>
       <thead>
         <tr>
           <th>No</th>

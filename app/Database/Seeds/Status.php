@@ -10,6 +10,7 @@ class Status extends Seeder
     {
         $data = [
             ['nama' => 'Aktif'],
+            ['nama' => 'Dalam Perbaikan'],
             ['nama' => 'Nonaktif'],
         ];
         $this->db->table('status')->insertBatch($data);

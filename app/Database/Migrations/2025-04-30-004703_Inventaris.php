@@ -15,26 +15,20 @@ class Inventaris extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'tempat' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
             'jenis_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
             ],
-            'tipe' => [
+            'merek' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
-            'nama' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
-            'password' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
+            'autentikasi_perangkat_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'null' => true
             ],
             'gambar' => [
                 'type' => 'VARCHAR',
@@ -50,21 +44,11 @@ class Inventaris extends Migration
                 'constraint' => 11,
                 'unsigned' => true,
             ],
-            'kuantitas' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
-            'latitude' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
-            'longitude' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
-            'lantai' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
+            'lokasi_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'null' => true
             ],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP'
         ]);
@@ -72,6 +56,8 @@ class Inventaris extends Migration
         $this->forge->addForeignKey('status_id', 'status', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('kondisi_id', 'kondisi', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('jenis_id', 'jenis', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('autentikasi_perangkat_id', 'autentikasi_perangkat', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('lokasi_id', 'lokasi', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('inventaris');
     }
 

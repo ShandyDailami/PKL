@@ -4,7 +4,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px;">
 </nav>
-
 <div class="position-fixed mt-2 me-2 top-0 end-0">
   <?php if (session()->getFlashdata('message')): ?>
     <div class="alert alert-success flash-message">
@@ -51,23 +50,16 @@
             </div>
           </div>
           <div class="table-responsive">
-            <table class="table table-custom table-hover table-bordered" style="  width: 100%;
-  min-width: 1200px;">
+            <table class="table table-custom table-hover table-bordered" style="  width: 100%;">
               <thead>
                 <tr>
                   <th scope="col">No</th>
-                  <th scope="col">Tempat</th>
                   <th scope="col">Jenis</th>
-                  <th scope="col">Tipe</th>
-                  <th scope="col">Nama Perangkat</th>
-                  <th scope="col">Kata Sandi</th>
+                  <th scope="col">Merek</th>
+                  <th scope="col">SSID</th>
+                  <th scope="col">Password</th>
                   <th scope="col">Gambar</th>
-                  <th scope="col">Kondisi</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Kuantitas</th>
-                  <th scope="col">Latitude</th>
-                  <th scope="col">Longitude</th>
-                  <th scope="col">Lantai</th>
                   <th scope="col">Aksi</th>
                 </tr>
               </thead>
@@ -76,19 +68,13 @@
                   <?php foreach ($items as $index => $item): ?>
                     <tr>
                       <td><?= $index + 1 ?></td>
-                      <td><?= esc($item['tempat']) ?></td>
                       <td><?= esc($item['jenis_nama']) ?></td>
-                      <td><?= esc($item['tipe']) ?></td>
-                      <td><?= esc($item['nama']) ?></td>
+                      <td><?= esc($item['merek']) ?></td>
+                      <td><?= esc($item['SSID']) ?></td>
                       <td><?= esc($item['password']) ?></td>
                       <td><img class="img-rounded" src="<?= base_url('uploads/' . $item['gambar']) ?>"
                           style="height: 100px;" alt=""></td>
-                      <td><?= esc($item['kondisi_nama']) ?></td>
                       <td><?= esc($item['status_nama']) ?></td>
-                      <td><?= esc($item['kuantitas']) ?></td>
-                      <td><?= esc($item['latitude']) ?></td>
-                      <td><?= esc($item['longitude']) ?></td>
-                      <td><?= esc($item['lantai']) ?></td>
                       <td>
                         <button id="editDevice" data-id="<?= esc($item['id']) ?>"
                           class="btn btn-sm btn-warning">Edit</button>

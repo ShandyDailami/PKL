@@ -51,8 +51,11 @@
               <label for="file" class="form-label">Import File (Excel/CSV)</label>
               <input type="file" class="form-control" name="file_excel" id="file" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Import Data</button>
+            <button type="submit" class="btn btn-primary w-100 mb-2">Import Data</button>
           </form>
+          <a href="<?= base_url('template/Template_Import.xlsx') ?>" class="w-100 btn btn-success">
+            Download Template Excel
+          </a>
 
           <div class="text-center my-3">
             <span>atau</span>

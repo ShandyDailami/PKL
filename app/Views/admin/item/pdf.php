@@ -1,3 +1,31 @@
+<?php
+function formatTanggal($tanggal)
+{
+  $hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  $bulan = [
+    1 => 'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember'
+  ];
+
+  $timestamp = strtotime($tanggal);
+  $hariNama = $hari[date('w', $timestamp)];
+  $tgl = date('j', $timestamp);
+  $bln = $bulan[date('n', $timestamp)];
+  $thn = date('Y', $timestamp);
+
+  return "$hariNama, $tgl $bln $thn";
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -66,30 +94,33 @@
 
 <body>
   <h2 class="f-main">Data Inventaris</h2>
-  <div class="table-custom">
-    <table>
+  <p style="padding: 0; margin: 0;">Hari/Tanggal: <?= formatTanggal(date('d-m-Y')) ?></p>
+  <div" class="table-custom">
+    <table style="margin: 0;">
       <thead>
         <tr>
           <th>No</th>
-          <th>Tempat</th>
-          <th>Lantai</th>
           <th>Jenis</th>
-          <th>Tipe</th>
+          <th>Merek</th>
+          <th>SSID</th>
+          <th>Kata Sandi</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($items as $key => $item): ?>
           <tr>
             <td><?= $key + 1 ?></td>
-            <td><?= esc($item['tempat']) ?></td>
-            <td><?= esc($item['lantai']) ?></td>
             <td><?= esc($item['jenis_nama']) ?></td>
-            <td><?= esc($item['tipe']) ?></td>
+            <td><?= esc($item['merek']) ?></td>
+            <td><?= esc($item['SSID']) ?></td>
+            <td><?= esc($item['password']) ?></td>
+            <td><?= esc($item['status_nama']) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
-  </div>
+    </div>
 </body>
 
 </html>

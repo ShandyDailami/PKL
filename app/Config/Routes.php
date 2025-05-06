@@ -48,4 +48,5 @@ $routes->group('admin', function ($routes) {
 
   $routes->get('dashboard/perangkat-jaringan/pdf', [Inventaris::class, 'exportPerangkatPDF']);
   $routes->get('dashboard/inventaris/pdf', [Inventaris::class, 'exportInventarisPDF']);
+  $routes->get('test', [Inventaris::class, 'test']);
 });

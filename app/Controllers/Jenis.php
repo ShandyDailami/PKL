@@ -26,7 +26,7 @@ class Jenis extends BaseController
         $rules = [
             'nama' => [
                 'rules' => 'required',
-                'errors' => ['required' => 'Tempat harus diisi'],
+                'errors' => ['required' => 'Jenis harus diisi'],
             ],
         ];
 
