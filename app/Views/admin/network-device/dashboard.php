@@ -137,9 +137,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="<?= $modal['id'] ?>">
-            <?= esc($modal['tempat']) ?> -
-            <?= esc($modal['jenis_nama']) ?>
-            <?= esc($modal['merek']) ?>
+            <?php if ($modal['jenis_nama'] === 'Access Point'): ?>
+              <?= esc($modal['tempat']) ?> -
+              <?= esc($modal['jenis_nama']) ?>
+              (<?= esc($modal['SSID']) ?>)
+              <?= esc($modal['merek']) ?>
+            <?php else: ?>
+              <?= esc($modal['tempat']) ?> -
+              <?= esc($modal['jenis_nama']) ?>
+              <?= esc($modal['merek']) ?>
+            <?php endif ?>
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>

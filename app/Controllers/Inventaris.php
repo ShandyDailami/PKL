@@ -37,7 +37,7 @@ class Inventaris extends BaseController
         $data = [
             'title' => 'Perangkat Jaringan',
             'modals' => $modalQuery->findAll(),
-            'devices' => $query->paginate(5),
+            'devices' => $query->paginate(4),
             'pager' => $model->pager,
             'keyword' => $keyword,
         ];

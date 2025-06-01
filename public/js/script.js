@@ -388,9 +388,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-function sanitizeId(str) {
-  return str.replace(/[^a-zA-Z0-9_-]/g, '_');
-}
 
 const map = L.map('map', {
   center: [-3.445584, 114.84090],
@@ -402,25 +399,37 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// Ukuran kecil
+const iconSize = [16, 26];
+const iconAnchor = [8, 26];
+const shadowSize = [30, 30];
+
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [20, 40],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+  iconSize,
+  iconAnchor,
+  popupAnchor: [1, -20],
+  shadowSize
 });
 
 const greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
+  iconSize,
+  iconAnchor,
+  popupAnchor: [1, -20],
+  shadowSize
 });
 
-const blueIcon = new L.Icon.Default();
+const blueIcon = new L.Icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+  iconSize,
+  iconAnchor,
+  popupAnchor: [1, -20],
+  shadowSize
+});
 
 fetch('/devices')
   .then(response => response.json())
@@ -434,6 +443,7 @@ fetch('/devices')
       } else {
         icon = blueIcon;
       }
+
       let popupContent = `<b style="text-transform: capitalize;">${device.jenis_nama}</b>
       <br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}">
       <br><button type="button" class="reset text-decoration-underline" data-bs-toggle="modal" data-bs-target="#${device.id}">
@@ -449,7 +459,7 @@ fetch('/devices')
           </button>
         <br>Lantai ${device.lantai}`;
       }
-      console.log(device.id)
+
       L.marker([device.latitude, device.longitude], { icon })
         .addTo(map)
         .bindPopup(popupContent);
