@@ -13,6 +13,12 @@ class User extends BaseController
         if (session()->has('id')) {
             return redirect()->to('admin/dashboard/perangkat-jaringan');
         }
+
+        $response = service('response');
+        $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        $response->setHeader('Pragma', 'no-cache');
+        $response->setHeader('Expires', '0');
+
         return view('admin/login', ['title' => 'Login']);
     }
 
@@ -28,26 +34,24 @@ class User extends BaseController
         );
         $responseData = json_decode($verifyResponse);
 
-        if (!$responseData->success) {
-            return redirect()->back()->withInput()->with('error', 'Verifikasi CAPTCHA gagal.');
-        }
-
         if (
             $this->validate([
                 'username' => [
-                    'rules' => 'required|min_length[3]|max_length[255]',
+                    'rules' => 'required',
                     'errors' => [
-                        'required' => 'Username cannot be empty',
-                        'min_length' => 'Username must be at least 3 characters long.',
-                        'max_length[255]' => 'Username can be up to 255 characters long.'
+                        'required' => 'Username harus diisi',
                     ]
                 ],
                 'password' => [
-                    'rules' => 'required|min_length[5]|max_length[255]',
+                    'rules' => 'required',
                     'errors' => [
-                        'required' => 'Password cannot be empty.',
-                        'min_length' => 'Password must be at least 5 characters long.',
-                        'max_length' => 'Password cannot exceed 255 characters.',
+                        'required' => 'Password harus diisi',
+                    ]
+                ],
+                'g-recaptcha-response' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Silakan centang CAPTCHA terlebih dahulu.',
                     ]
                 ]
             ])
@@ -65,7 +69,7 @@ class User extends BaseController
 
                 return redirect()->to('admin/dashboard/perangkat-jaringan');
             } else {
-                session()->setFlashdata('error', 'Invalid username or password');
+                session()->setFlashdata('error', 'Username atau password salah');
                 return redirect()->to('admin/login');
             }
         } else {

@@ -26,8 +26,9 @@
       </div>
       <div class="container-fluid d-flex justify-content-start pt-4 px-0">
         <form action="" method="get" class="d-flex" role="search">
-          <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-sec" type="submit"><i class="bi bi-search"></i></button>
+          <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search"
+            value="<?= esc($keyword) ?>">
+          <button class=" btn btn-sec" type="submit"><i class="bi bi-search"></i></button>
         </form>
       </div>
       <div class="row d-flex py-4 flex-row">
@@ -40,9 +41,6 @@
                 <div class="card-body">
                   <h5 class="card-title fw-bold" style="text-transform: capitalize;">
                     <?= esc($device['jenis_nama']) ?>
-                    <?php if (strtolower(esc($device['jenis_nama'])) !== 'access point'): ?>
-                    <?php else: ?>
-                    <?php endif ?>
                   </h5>
                   <div class="d-flex flex-column">
                     <p class="card-text text-capitalize fs-6 m-0">SSID: <?= esc($device['SSID']) ?></p>
@@ -67,5 +65,26 @@
     </div>
   </div>
 </div>
+
+<?php foreach ($modals as $modal): ?>
+
+  <div class="modal fade" id="<?= $modal['id'] ?>" tabindex="-1" aria-labelledby="<?= $modal['id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="<?= $modal['id'] ?>">
+            <?= esc($modal['tempat']) ?> -
+            <?= esc($modal['jenis_nama']) ?>
+            <?= esc($modal['merek']) ?>
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" data-tempat="<?= $modal['tempat'] ?>">
+          <img class="img-rounded gambarPeta" style="max-width:750px; height: auto;" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endforeach ?>
 
 <?= $this->endSection('content') ?>

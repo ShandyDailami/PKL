@@ -27,10 +27,6 @@ class Lokasi extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
-            'tempat' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
         ]);
         $this->forge->addPrimaryKey('id');
         $this->forge->createTable('lokasi');

@@ -10,6 +10,7 @@ class Jenis extends BaseController
 {
     public function index()
     {
+
         $model = new ModelsJenis();
         $data = [
             'title' => 'Jenis Perangkat',
@@ -77,5 +78,17 @@ class Jenis extends BaseController
         ]);
 
         return redirect()->to('admin/dashboard/jenis-perangkat')->with('message', 'Data berhasil diubah');
+    }
+
+    public function hapus($id)
+    {
+        $model = new ModelsJenis();
+        $jenis = $model->find($id);
+        if ($jenis) {
+            $model->delete($id);
+            return redirect()->back()->with('message', 'Data berhasil dihapus');
+        } else {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Jenis tidak ditemukan');
+        }
     }
 }

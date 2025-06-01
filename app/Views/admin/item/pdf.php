@@ -30,7 +30,7 @@ function formatTanggal($tanggal)
 <html>
 
 <head>
-  <title>Export Perangkat Jaringan</title>
+  <title>Export Inventaris</title>
   <style>
     body {
       font-family: "Montserrat", sans-serif;
@@ -58,6 +58,7 @@ function formatTanggal($tanggal)
       text-align: left;
       vertical-align: middle;
       font-size: small;
+      text-align: center;
     }
 
     tbody tr {
@@ -108,16 +109,22 @@ function formatTanggal($tanggal)
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($items as $key => $item): ?>
+        <?php if (!empty($items)): ?>
+          <?php foreach ($items as $key => $item): ?>
+            <tr>
+              <td><?= $key + 1 ?></td>
+              <td><?= esc($item['jenis_nama']) ?></td>
+              <td><?= esc($item['merek']) ?></td>
+              <td><?= esc($item['SSID']) ?></td>
+              <td><?= esc($item['password']) ?></td>
+              <td><?= esc($item['status_nama']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
           <tr>
-            <td><?= $key + 1 ?></td>
-            <td><?= esc($item['jenis_nama']) ?></td>
-            <td><?= esc($item['merek']) ?></td>
-            <td><?= esc($item['SSID']) ?></td>
-            <td><?= esc($item['password']) ?></td>
-            <td><?= esc($item['status_nama']) ?></td>
+            <td colspan="14">Belum Ada Data</td>
           </tr>
-        <?php endforeach; ?>
+        <?php endif ?>
       </tbody>
     </table>
     </div>

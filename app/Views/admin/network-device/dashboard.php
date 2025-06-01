@@ -28,6 +28,7 @@
             class="bi bi-clipboard-check-fill px-2"></i>Inventaris</button>
         <button id="jenisPerangkat" class="btn text-start btn-main border-0"><i class="bi bi-folder-fill px-2"></i>Jenis
           Perangkat</button>
+        <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="tambahInventaris" class="btn text-start btn-main border-0"><i
             class="bi bi-plus-circle-fill px-2"></i>
           Tambah Perangkat</button>
@@ -67,9 +68,13 @@
               </thead>
               <tbody class="text-center">
                 <?php if (!empty($devices)): ?>
+                  <?php
+                  $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                  $no = 1 + (5 * ($page - 1));
+                  ?>
                   <?php foreach ($devices as $index => $device): ?>
                     <tr>
-                      <td><?= $index + 1 ?></td>
+                      <td><?= $no++ ?></td>
                       <td><?= esc($device['tempat']) ?></td>
                       <td><?= esc($device['jenis_nama']) ?></td>
                       <td><?= esc($device['merek']) ?></td>
@@ -86,6 +91,7 @@
                           data-id="<?= esc($device['id']) ?>">Hapus</button>
                       </td>
                     </tr>
+
                   <?php endforeach ?>
                 <?php else: ?>
                   <tr>
@@ -124,5 +130,25 @@
     </div>
   </div>
 </div>
+<?php foreach ($modals as $modal): ?>
+
+  <div class="modal fade" id="<?= $modal['id'] ?>" tabindex="-1" aria-labelledby="<?= $modal['id'] ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="<?= $modal['id'] ?>">
+            <?= esc($modal['tempat']) ?> -
+            <?= esc($modal['jenis_nama']) ?>
+            <?= esc($modal['merek']) ?>
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" data-tempat="<?= $modal['tempat'] ?>">
+          <img class="img-rounded gambarPeta" style="max-width:750px; height: auto;" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endforeach ?>
 
 <?= $this->endSection('content') ?>

@@ -31,6 +31,7 @@
             class="bi bi-clipboard-check-fill px-2"></i>Inventaris</button>
         <button id="jenisPerangkat" class="btn text-start btn-main border-0"><i class="bi bi-folder-fill px-2"></i>Jenis
           Perangkat</button>
+        <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="tambahInventaris" class="btn text-start btn-main-active border-0"><i
             class="bi bi-plus-circle-fill px-2"></i>Tambah Perangkat</button>
         <a class="btn btn-outline-danger text-start" href="/admin/logout"><i

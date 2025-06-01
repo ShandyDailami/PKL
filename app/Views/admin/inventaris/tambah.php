@@ -29,6 +29,7 @@
             class="bi bi-router-fill px-2"></i>Perangkat Jaringan</button>
         <button id="item" class="btn text-start btn-main border-0"><i
             class="bi bi-clipboard-check-fill px-2"></i>Inventaris</button>
+        <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="jenisPerangkat" class="btn text-start btn-main border-0"><i class="bi bi-folder-fill px-2"></i>Jenis
           Perangkat</button>
         <button id="tambahInventaris" class="btn text-start btn-main-active border-0"><i
@@ -52,7 +53,7 @@
               <select class="form-select" name="jenis_id" id="pilihJenisPerangkat">
                 <option selected disabled value="">Pilih Jenis</option>
                 <?php foreach ($types as $index => $type): ?>
-                  <option value="<?= $index + 1 ?>" <?= old('jenis_id') == $index + 1 ? 'selected' : '' ?>>
+                  <option value="<?= $type['id'] ?>" <?= old('jenis_id') == $index + 1 ? 'selected' : '' ?>>
                     <?= esc($type['nama']) ?>
                   </option>
                 <?php endforeach ?>
@@ -63,7 +64,7 @@
               <select class="form-select" name="kondisi_id" id="kondisi">
                 <option selected disabled>Pilih Kondisi</option>
                 <?php foreach ($conditions as $index => $condition): ?>
-                  <option value="<?= $index + 1 ?>" <?= old('kondisi_id') == $index + 1 ? 'selected' : '' ?>>
+                  <option value="<?= $condition['id'] ?>" <?= old('kondisi_id') == $index + 1 ? 'selected' : '' ?>>
                     <?= esc($condition['nama']) ?>
                   </option>
                 <?php endforeach ?>
@@ -96,7 +97,7 @@
                   <select class="form-select" name="status_id" id="status">
                     <option selected disabled>Pilih Status</option>
                     <?php foreach ($statuses as $index => $status): ?>
-                      <option value="<?= $index + 1 ?>" <?= old('status_id') == $index + 1 ? 'selected' : '' ?>>
+                      <option value="<?= $status['id'] ?>" <?= old('status_id') == $index + 1 ? 'selected' : '' ?>>
                         <?= esc($status['nama']) ?>
                       </option>
                     <?php endforeach ?>
@@ -106,9 +107,15 @@
 
               <div class="col-md-6" id="kanan">
                 <div class="mb-3">
-                  <label for="tempat" class="form-label">Tempat</label>
-                  <input type="text" id="tempat" name="tempat" class="form-control" value="<?= old('tempat') ?>"
-                    placeholder="Masukkan Tempat">
+                  <label for="pilihTempat" class="form-label">Tempat</label>
+                  <select class="form-select" name="tempat_id" id="pilihTempat">
+                    <option selected disabled value="">Pilih Tempat</option>
+                    <?php foreach ($places as $index => $place): ?>
+                      <option value="<?= $place['id'] ?>" <?= old('tempat_id') == $index + 1 ? 'selected' : '' ?>>
+                        <?= esc($place['nama']) ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="latitude" class="form-label">Latitude</label>

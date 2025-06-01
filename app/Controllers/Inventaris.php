@@ -9,7 +9,10 @@ use App\Models\Inventaris as ModelsInventaris;
 use App\Models\Jenis;
 use App\Models\Kondisi;
 use App\Models\Lokasi;
+use App\Models\Modal;
 use App\Models\Status;
+use App\Models\Tempat;
+use App\Models\User;
 use CodeIgniter\HTTP\ResponseInterface;
 use Dompdf\Dompdf;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -19,17 +22,21 @@ class Inventaris extends BaseController
     public function perangkatJaringanUser()
     {
         $model = new ModelsInventaris();
+        $modelModal = new Modal();
         $keyword = $this->request->getGet('keyword');
+        $modalQuery = $modelModal->dataJoin()->where('inventaris.kondisi_id', 1);
         $query = $model->dataJoin()->where('inventaris.kondisi_id', 1);
         if ($keyword) {
             $query = $query->groupStart()
                 ->like('jenis.nama', $keyword)
-                ->orLike('lokasi.tempat', $keyword)
+                ->orLike('tempat.nama', $keyword)
+                ->orLike('inventaris.merek', $keyword)
                 ->orLike('lokasi.lantai', $keyword)
                 ->groupEnd();
         }
         $data = [
             'title' => 'Perangkat Jaringan',
+            'modals' => $modalQuery->findAll(),
             'devices' => $query->paginate(5),
             'pager' => $model->pager,
             'keyword' => $keyword,
@@ -45,13 +52,13 @@ class Inventaris extends BaseController
         if ($keyword) {
             $query = $query->groupStart()
                 ->like('jenis.nama', $keyword)
-                ->orLike('lokasi.tempat', $keyword)
+                ->orLike('tempat.nama', $keyword)
                 ->orLike('lokasi.lantai', $keyword)
                 ->groupEnd();
         }
         $data = [
             'title' => 'Inventaris',
-            'items' => $query->paginate(5),
+            'items' => $query->paginate(4),
             'pager' => $model->pager,
             'keyword' => $keyword,
         ];
@@ -61,22 +68,30 @@ class Inventaris extends BaseController
     public function perangkatJaringanAdmin()
     {
         $model = new ModelsInventaris();
+        $modelModal = new Modal();
         $keyword = $this->request->getGet('keyword');
+        $modalQuery = $modelModal->dataJoin()->where('inventaris.kondisi_id', 1);
         $query = $model->dataJoin()->where('inventaris.kondisi_id', 1);
         if ($keyword) {
             $query = $query->groupStart()
                 ->like('jenis.nama', $keyword)
-                ->orLike('inventaris.tempat', $keyword)
-                ->orLike('inventaris.lantai', $keyword)
+                ->orLike('tempat.nama', $keyword)
+                ->orLike('inventaris.merek', $keyword)
+                ->orLike('lokasi.lantai', $keyword)
                 ->groupEnd();
         }
         $data = [
             'title' => 'Perangkat Jaringan',
+            'modals' => $modalQuery->findAll(),
             'devices' => $query->paginate(5),
             'pager' => $model->pager,
             'keyword' => $keyword,
         ];
-        return view('admin/network-device/dashboard', $data);
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        } else {
+            return view('admin/network-device/dashboard', $data);
+        }
     }
     public function inventarisAdmin()
     {
@@ -86,8 +101,8 @@ class Inventaris extends BaseController
         if ($keyword) {
             $query = $query->groupStart()
                 ->like('jenis.nama', $keyword)
-                ->orLike('inventaris.tempat', $keyword)
-                ->orLike('inventaris.lantai', $keyword)
+                ->orLike('tempat.nama', $keyword)
+                ->orLike('lokasi.lantai', $keyword)
                 ->groupEnd();
         }
 
@@ -140,18 +155,18 @@ class Inventaris extends BaseController
             $sheet = $spreadsheet->getActiveSheet();
             $rows = $sheet->toArray(null, true, true, true);
 
-            $header = array_shift($rows); // Buang header
+            $header = array_shift($rows);
+            $userId = session()->get('id');
 
             foreach ($rows as $row) {
-                // Ambil kondisi_id lalu cek namanya
+                if (empty($row['D']) || empty($row['B'])) {
+                    continue;
+                }
+
                 $kondisiId = $row['G'] ?? null;
                 $kondisiRow = $modelKondisi->find($kondisiId);
                 $namaKondisi = ($kondisiRow && array_key_exists('nama', $kondisiRow)) ? strtolower(trim($kondisiRow['nama'])) : '';
                 $isTerpasang = $namaKondisi === 'terpasang';
-
-                if (empty($row['D']) || empty($row['B'])) {
-                    continue;
-                }
 
                 $modelAutentikasiPerangkat->save([
                     'SSID' => $row['D'] ?? null,
@@ -160,17 +175,17 @@ class Inventaris extends BaseController
                 $autentikasiId = $modelAutentikasiPerangkat->getInsertID();
 
                 $lokasiId = null;
+                $tempatId = null;
                 if ($isTerpasang) {
                     $modelLokasi->save([
-                        'tempat' => $row['A'] ?? null,
                         'latitude' => isset($row['I']) ? (string) $row['I'] : null,
                         'longitude' => isset($row['J']) ? (string) $row['J'] : null,
                         'lantai' => $row['K'] ?? null,
                     ]);
                     $lokasiId = $modelLokasi->getInsertID();
+                    $tempatId = $row['A'] ?? null;
                 }
 
-                // Cek duplikasi
                 $exists = $model
                     ->where('merek', $row['C'])
                     ->where('jenis_id', $row['B'])
@@ -179,24 +194,24 @@ class Inventaris extends BaseController
 
                 if ($exists == 0) {
                     $model->save([
+                        'user_id' => $userId,
                         'jenis_id' => $row['B'],
                         'kondisi_id' => $kondisiId,
                         'merek' => $row['C'],
                         'autentikasi_perangkat_id' => $autentikasiId,
-                        'gambar' => $row['F'],
-                        'status_id' => $row['H'],
+                        'gambar' => $row['F'] ?? null,
+                        'status_id' => $row['H'] ?? null,
                         'lokasi_id' => $lokasiId,
+                        'tempat_id' => $tempatId,
                     ]);
                 }
             }
 
-            return redirect()->to('/admin/dashboard/inventaris/')->with('message', 'Import data berhasil!');
+            return redirect()->to('/admin/dashboard/perangkat-jaringan')->with('message', 'Import data berhasil!');
         }
 
         return redirect()->back()->with('error', 'File tidak valid.');
     }
-
-
 
     public function exportPerangkatPDF()
     {
@@ -244,12 +259,14 @@ class Inventaris extends BaseController
         $modelKondisi = new Kondisi();
         $modelJenis = new Jenis();
         $modelStatus = new Status();
+        $modelTempat = new Tempat();
         $data = [
             'title' => 'Perangkat Jaringan - Tambah',
             'devices' => $model->findAll(),
             'conditions' => $modelKondisi->findAll(),
             'types' => $modelJenis->findAll(),
             'statuses' => $modelStatus->findAll(),
+            'places' => $modelTempat->findAll(),
         ];
         if (!session()->has('id')) {
             return redirect()->to('admin/login');
@@ -264,6 +281,7 @@ class Inventaris extends BaseController
         $modelJenis = new Jenis();
         $modelStatus = new Status();
         $modelLokasi = new Lokasi();
+        $modelTempat = new Tempat();
         $model = new ModelsInventaris();
         $data = [
             'title' => 'Perangkat Jaringan - Edit',
@@ -272,6 +290,7 @@ class Inventaris extends BaseController
             'conditions' => $modelKondisi->findAll(),
             'types' => $modelJenis->findAll(),
             'statuses' => $modelStatus->findAll(),
+            'places' => $modelTempat->findAll(),
         ];
         if (!session()->has('id')) {
             return redirect()->to('admin/login');
@@ -322,7 +341,7 @@ class Inventaris extends BaseController
         ];
 
         if ($isTerpasang) {
-            $rules['tempat'] = ['rules' => 'required', 'errors' => ['required' => 'Tempat harus diisi']];
+            $rules['tempat_id'] = ['rules' => 'required', 'errors' => ['required' => 'Tempat harus diisi']];
             $rules['latitude'] = ['rules' => 'required', 'errors' => ['required' => 'Latitude harus diisi']];
             $rules['longitude'] = ['rules' => 'required', 'errors' => ['required' => 'Longitude harus diisi']];
             $rules['lantai'] = ['rules' => 'required', 'errors' => ['required' => 'Lantai harus diisi']];
@@ -337,13 +356,14 @@ class Inventaris extends BaseController
         $image->move(ROOTPATH . 'public/uploads/', $filename);
 
         $lokasiId = null;
+        $tempatId = null;
         if ($isTerpasang) {
             $modelLokasi->save([
-                'tempat' => $this->request->getPost('tempat'),
                 'latitude' => $this->request->getPost('latitude'),
                 'longitude' => $this->request->getPost('longitude'),
                 'lantai' => $this->request->getPost('lantai'),
             ]);
+            $tempatId = $this->request->getPost('tempat_id');
             $lokasiId = $modelLokasi->getInsertID();
         }
 
@@ -353,7 +373,10 @@ class Inventaris extends BaseController
         ]);
         $autentikasiPerangkatId = $modelAutentikasiPerangkat->getInsertID();
 
+        $userId = session()->get('id');
+
         $model->save([
+            'user_id' => $userId,
             'jenis_id' => $this->request->getPost('jenis_id'),
             'kondisi_id' => $this->request->getPost('kondisi_id'),
             'merek' => $this->request->getPost('merek'),
@@ -361,6 +384,7 @@ class Inventaris extends BaseController
             'gambar' => $filename,
             'status_id' => $this->request->getPost('status_id'),
             'lokasi_id' => $lokasiId,
+            'tempat_id' => $tempatId,
         ]);
 
         if ($isTerpasang) {
@@ -414,7 +438,7 @@ class Inventaris extends BaseController
         }
 
         if ($isTerpasang) {
-            $rules['tempat'] = ['rules' => 'required', 'errors' => ['required' => 'Tempat harus diisi']];
+            $rules['tempat_id'] = ['rules' => 'required', 'errors' => ['required' => 'Tempat harus diisi']];
             $rules['latitude'] = ['rules' => 'required', 'errors' => ['required' => 'Latitude harus diisi']];
             $rules['longitude'] = ['rules' => 'required', 'errors' => ['required' => 'Longitude harus diisi']];
             $rules['lantai'] = ['rules' => 'required', 'errors' => ['required' => 'Lantai harus diisi']];
@@ -426,37 +450,35 @@ class Inventaris extends BaseController
 
         $gambar = $inventaris['gambar'];
         $fileGambar = $this->request->getFile('gambar');
-        if ($fileGambar->isValid() && !$fileGambar->hasMoved()) {
-            $gambar = $fileGambar->getRandomName();
-            $fileGambar->move(ROOTPATH . 'public/uploads/', $gambar);
-            // Opsional: hapus gambar lama
-            if (file_exists(ROOTPATH . 'public/uploads/' . $inventaris['gambar'])) {
+
+        if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
+            $gambarBaru = $fileGambar->getRandomName();
+            $fileGambar->move(ROOTPATH . 'public/uploads/', $gambarBaru);
+
+            if (!empty($inventaris['gambar']) && file_exists(ROOTPATH . 'public/uploads/' . $inventaris['gambar'])) {
                 unlink(ROOTPATH . 'public/uploads/' . $inventaris['gambar']);
             }
+
+            $gambar = $gambarBaru;
         }
 
         $lokasiId = $inventaris['lokasi_id'];
         if ($isTerpasang) {
             $dataLokasi = [
-                'tempat' => $this->request->getPost('tempat'),
                 'latitude' => $this->request->getPost('latitude'),
                 'longitude' => $this->request->getPost('longitude'),
                 'lantai' => $this->request->getPost('lantai'),
             ];
+            $tempatId = $this->request->getPost('tempat_id');
 
             if ($lokasiId) {
                 $dataLokasi['id'] = $lokasiId;
                 $modelLokasi->save($dataLokasi);
             } else {
                 $modelLokasi->save($dataLokasi);
-                $lokasiId = $modelLokasi->getInsertID();
             }
         } else {
-            // Jika sekarang tidak terpasang, hapus lokasi jika sebelumnya ada
-            if ($lokasiId) {
-                $modelLokasi->delete($lokasiId);
-                $lokasiId = null;
-            }
+            $lokasiId = null;
         }
 
         $autentikasiId = $inventaris['autentikasi_perangkat_id'];
@@ -466,7 +488,6 @@ class Inventaris extends BaseController
             'password' => $this->request->getPost('password'),
         ]);
 
-        // Inventaris
         $model->save([
             'id' => $id,
             'jenis_id' => $this->request->getPost('jenis_id'),
@@ -476,124 +497,13 @@ class Inventaris extends BaseController
             'gambar' => $gambar,
             'status_id' => $this->request->getPost('status_id'),
             'lokasi_id' => $lokasiId,
+            'tempat_id' => $tempatId,
         ]);
 
-        return redirect()->to('admin/dashboard/inventaris')->with('message', 'Data berhasil diperbarui');
-    }
-
-    public function updatee($id)
-    {
-        helper('form');
-        $model = new ModelsInventaris();
-        $perangkat = $model->find($id);
-        $jenis = $this->request->getPost('jenis_id');
-        $kondisi = $this->request->getPost('kondisi_id');
-
-        $rules = [
-            'tempat' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Tempat harus diisi'],
-            ],
-            'jenis_id' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Jenis harus diisi'],
-            ],
-            'tipe' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Tipe harus diisi'],
-            ],
-            'gambar' => [
-                'rules' => 'permit_empty|is_image[gambar]|max_size[gambar,1024]',
-                'errors' => [
-                    'is_image' => 'File harus berupa gambar yang valid(jpg, png, gif).',
-                    'max_size' => 'Ukuran gambar tidak boleh lebih dari 1MB.',
-                ],
-            ],
-            'kondisi_id' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Kondisi harus diisi'],
-            ],
-            'status_id' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Status harus diisi'],
-            ],
-            'kuantitas' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Kuantitas harus diisi'],
-            ],
-            'latitude' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Latitude harus diisi'],
-            ],
-            'longitude' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Longitude harus diisi'],
-            ],
-            'lantai' => [
-                'rules' => 'required',
-                'errors' => ['required' => 'Lantai harus diisi'],
-            ],
-        ];
-
-        if (in_array($jenis, ['3'])) {
-            $rules['nama'] = [
-                'rules' => 'required',
-                'errors' => ['required' => 'Nama Perangkat harus diisi'],
-            ];
-            $rules['password'] = [
-                'rules' => 'required',
-                'errors' => ['required' => 'Password Perangkat harus diisi'],
-            ];
-        }
-
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-        $image = $this->request->getFile('gambar');
-
-        $filename = $perangkat['gambar'];
-
-        if ($image && $image->isValid() && !$image->hasMoved()) {
-            $filename = $image->getRandomName();
-            $image->move(ROOTPATH . 'public/uploads/', $filename);
-
-            if ($perangkat['gambar'] && file_exists(ROOTPATH . 'public/uploads/' . $perangkat['gambar'])) {
-                unlink(ROOTPATH . 'public/uploads/' . $perangkat['gambar']);
-            }
+        if ($isTerpasang) {
+            return redirect()->to('admin/dashboard/perangkat-jaringan')->with('message', 'Data berhasil diperbarui');
         } else {
-            $filename = $perangkat['gambar'];
-        }
-
-        if (in_array($jenis, ['1', '2'])) {
-            $nama = '-';
-            $password = '-';
-        } else {
-            $nama = $this->request->getPost('nama');
-            $password = $this->request->getPost('password');
-        }
-
-        $model = new ModelsInventaris();
-        $model->update($id, [
-            'kondisi_id' => $this->request->getPost('kondisi_id'),
-            'jenis_id' => $this->request->getPost('jenis_id'),
-            'tipe' => $this->request->getPost('tipe'),
-            'nama' => $nama,
-            'password' => $password,
-            'gambar' => $filename,
-            'tempat' => $this->request->getPost('tempat'),
-            'status_id' => $this->request->getPost('status_id'),
-            'kuantitas' => $this->request->getPost('kuantitas'),
-            'latitude' => $this->request->getPost('latitude'),
-            'longitude' => $this->request->getPost('longitude'),
-            'lantai' => $this->request->getPost('lantai'),
-        ]);
-
-
-        if ($kondisi === '1') {
-            return redirect()->to('/admin/dashboard/perangkat-jaringan/')->with('message', 'Data berhasil diperbarui.');
-        } else {
-            return redirect()->to('/admin/dashboard/inventaris/')->with('message', 'Data berhasil diperbarui.');
+            return redirect()->to('admin/dashboard/inventaris')->with('message', 'Data berhasil diperbarui');
         }
     }
 

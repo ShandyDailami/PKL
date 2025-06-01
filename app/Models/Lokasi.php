@@ -11,6 +11,5 @@ class Lokasi extends Model
         'latitude',
         'longitude',
         'lantai',
-        'tempat',
     ];
 }

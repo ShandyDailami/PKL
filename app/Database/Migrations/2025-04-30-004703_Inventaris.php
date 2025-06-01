@@ -15,6 +15,11 @@ class Inventaris extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'user_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+            ],
             'jenis_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
@@ -50,14 +55,23 @@ class Inventaris extends Migration
                 'unsigned' => true,
                 'null' => true
             ],
-            'created_at DATETIME DEFAULT CURRENT_TIMESTAMP'
+            'tempat_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'null' => true
+            ],
+            'created_at DATETIME DEFAULT CURRENT_TIMESTAMP',
+            'updated_at DATETIME DEFAULT CURRENT_TIMESTAMP',
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('status_id', 'status', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('kondisi_id', 'kondisi', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('jenis_id', 'jenis', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('autentikasi_perangkat_id', 'autentikasi_perangkat', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('lokasi_id', 'lokasi', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('tempat_id', 'tempat', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('inventaris');
     }
 

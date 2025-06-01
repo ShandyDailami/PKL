@@ -58,10 +58,12 @@ function formatTanggal($tanggal)
       text-align: left;
       vertical-align: middle;
       font-size: small;
+      text-align: center;
     }
 
     tbody tr {
       border-color: #FAFAFA;
+      text-align: center;
     }
 
     tbody tr:hover {
@@ -110,18 +112,24 @@ function formatTanggal($tanggal)
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($devices as $key => $device): ?>
+        <?php if (!empty($devices)): ?>
+          <?php foreach ($devices as $key => $device): ?>
+            <tr>
+              <td><?= $key + 1 ?></td>
+              <td><?= esc($device['tempat']) ?></td>
+              <td><?= esc($device['jenis_nama']) ?></td>
+              <td><?= esc($device['merek']) ?></td>
+              <td><?= esc($device['SSID']) ?></td>
+              <td><?= esc($device['password']) ?></td>
+              <td><?= esc($device['status_nama']) ?></td>
+              <td><?= esc($device['lantai']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        <?php else: ?>
           <tr>
-            <td><?= $key + 1 ?></td>
-            <td><?= esc($device['tempat']) ?></td>
-            <td><?= esc($device['jenis_nama']) ?></td>
-            <td><?= esc($device['merek']) ?></td>
-            <td><?= esc($device['SSID']) ?></td>
-            <td><?= esc($device['password']) ?></td>
-            <td><?= esc($device['status_nama']) ?></td>
-            <td><?= esc($device['lantai']) ?></td>
+            <td colspan="14">Belum Ada Data</td>
           </tr>
-        <?php endforeach; ?>
+        <?php endif ?>
       </tbody>
     </table>
     </div>

@@ -25,8 +25,9 @@
       </div>
       <div class="container-fluid d-flex justify-content-start pt-4 px-0">
         <form action="" method="get" class="d-flex" role="search">
-          <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-sec" type="submit"><i class="bi bi-search"></i></button>
+          <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search"
+            value="<?= esc($keyword) ?>">
+          <button class=" btn btn-sec" type="submit"><i class="bi bi-search"></i></button>
         </form>
       </div>
       <div class="row d-flex py-4 flex-row">

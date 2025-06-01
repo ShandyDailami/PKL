@@ -28,6 +28,7 @@
             class="bi bi-clipboard-check-fill px-2"></i>Inventaris</button>
         <button id="jenisPerangkat" class="btn text-start btn-main border-0"><i class="bi bi-folder-fill px-2"></i>Jenis
           Perangkat</button>
+        <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="tambahInventaris" class="btn text-start btn-main border-0"><i
             class="bi bi-plus-circle-fill px-2"></i>
           Tambah Perangkat</button>
@@ -65,9 +66,13 @@
               </thead>
               <tbody class="text-center">
                 <?php if (!empty($items)): ?>
+                  <?php
+                  $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                  $no = 1 + (5 * ($page - 1));
+                  ?>
                   <?php foreach ($items as $index => $item): ?>
                     <tr>
-                      <td><?= $index + 1 ?></td>
+                      <td><?= $no++ ?></td>
                       <td><?= esc($item['jenis_nama']) ?></td>
                       <td><?= esc($item['merek']) ?></td>
                       <td><?= esc($item['SSID']) ?></td>
@@ -99,7 +104,6 @@
     </div>
   </div>
 </div>
-
 <div class="modal fade" id="deleteDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

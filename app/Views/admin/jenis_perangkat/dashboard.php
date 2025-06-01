@@ -29,6 +29,7 @@
             class="bi bi-clipboard-check-fill px-2"></i>Inventaris</button>
         <button id="jenisPerangkat" class="btn text-start btn-main-active border-0"><i
             class="bi bi-folder-fill px-2"></i>Jenis Perangkat</button>
+        <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="tambahInventaris" class="btn text-start btn-main border-0"><i
             class="bi bi-plus-circle-fill px-2"></i>
           Tambah Perangkat</button>
@@ -65,7 +66,7 @@
                       <td>
                         <button id="editJenis" data-id="<?= esc($type['id']) ?>"
                           class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-danger" data-bs-target="#deleType" data-bs-toggle="modal"
+                        <button class="btn btn-sm btn-danger" data-bs-target="#hapusJenis" data-bs-toggle="modal"
                           data-id="<?= esc($type['id']) ?>">Hapus</button>
                       </td>
                     </tr>
@@ -82,9 +83,27 @@
         <div>
           <?= $pager->links('default', 'pagination') ?>
         </div>
+        <div class="modal fade" id="hapusJenis" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Hapus</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Apakah Anda yakin ingin menghapus data ini?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                <button type="button" class="btn btn-primary" id="confirmJenis">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div id="formTambah" class="offset-3 col-9 align-items-center d-none">

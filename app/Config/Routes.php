@@ -2,6 +2,7 @@
 
 use App\Controllers\Inventaris;
 use App\Controllers\Jenis;
+use App\Controllers\Tempat;
 use App\Controllers\User;
 use CodeIgniter\Router\RouteCollection;
 
@@ -41,10 +42,17 @@ $routes->group('admin', function ($routes) {
   $routes->post('dashboard/jenis-perangkat', [Jenis::class, 'tambah']);
   $routes->get('dashboard/jenis-perangkat/edit/(:num)', [Jenis::class, 'halamanUpdate']);
   $routes->post('dashboard/jenis-perangkat/edit/(:num)', [Jenis::class, 'update']);
+  $routes->get('dashboard/jenis-perangkat/hapus/(:num)', [Jenis::class, 'hapus']);
+
+  $routes->post('dashboard/tempat', [Tempat::class, 'tambah']);
+  $routes->get('dashboard/tempat/edit/(:num)', [Tempat::class, 'halamanUpdate']);
+  $routes->post('dashboard/tempat/edit/(:num)', [Tempat::class, 'update']);
+  $routes->get('dashboard/tempat/hapus/(:num)', [Tempat::class, 'hapus']);
 
   $routes->get('dashboard/inventaris', [Inventaris::class, 'inventarisAdmin']);
   $routes->get('dashboard/perangkat-jaringan', [Inventaris::class, 'perangkatJaringanAdmin']);
   $routes->get('dashboard/jenis-perangkat', [Jenis::class, 'index']);
+  $routes->get('dashboard/tempat', [Tempat::class, 'index']);
 
   $routes->get('dashboard/perangkat-jaringan/pdf', [Inventaris::class, 'exportPerangkatPDF']);
   $routes->get('dashboard/inventaris/pdf', [Inventaris::class, 'exportInventarisPDF']);
