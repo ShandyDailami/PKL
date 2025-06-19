@@ -3,6 +3,9 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px; z-index: 1030;">
+  <img style="height: 100%;" class="ps-3" src="<?= base_url('assets/logo/ULM.png') ?>" alt="">
+
+  <h1 class="logo fw-bold pt-2 ps-2">SIPIJAR</h1>
 </nav>
 
 <div class="position-fixed mt-2 me-2 top-0 end-0">

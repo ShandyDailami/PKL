@@ -16,6 +16,7 @@ class Inventaris extends Model
         'merek',
         'autentikasi_perangkat_id',
         'gambar',
+        'tanggal_perolehan',
         'status_id',
         'lokasi_id',
         'tempat_id',

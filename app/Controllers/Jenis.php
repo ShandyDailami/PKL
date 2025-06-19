@@ -10,7 +10,9 @@ class Jenis extends BaseController
 {
     public function index()
     {
-
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         $model = new ModelsJenis();
         $data = [
             'title' => 'Jenis Perangkat',
@@ -22,6 +24,9 @@ class Jenis extends BaseController
 
     public function tambah()
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         helper("helper");
 
         $rules = [
@@ -43,6 +48,18 @@ class Jenis extends BaseController
         return redirect()->to('admin/dashboard/jenis-perangkat')->with('message', 'Data berhasil ditambah');
     }
 
+    public function halamanTambah()
+    {
+        $data = [
+            'title' => 'Jenis Perangkat',
+        ];
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        } else {
+            return view('admin/jenis_perangkat/tambah', $data);
+        }
+    }
+
     public function halamanUpdate($id)
     {
         $model = new ModelsJenis();
@@ -59,6 +76,9 @@ class Jenis extends BaseController
 
     public function update($id)
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         helper('form');
 
         $rules = [
@@ -82,6 +102,9 @@ class Jenis extends BaseController
 
     public function hapus($id)
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         $model = new ModelsJenis();
         $jenis = $model->find($id);
         if ($jenis) {

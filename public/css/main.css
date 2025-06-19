@@ -2,6 +2,11 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.logo {
+  font-family: "Roboto", sans-serif;
+  color: #00325C;
+}
+
 .modal {
   z-index: 2050 !important;
   position: fixed;

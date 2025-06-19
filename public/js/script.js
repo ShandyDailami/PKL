@@ -4,6 +4,7 @@ if (window.history.replaceState) {
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   const networkDevicePDF = document.getElementById('perangkatPDF');
 
@@ -24,6 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const networkDeviceBtn = document.getElementById('networkDevice');
 
   networkDeviceBtn.addEventListener('click', () => {
+    window.location.href = '/admin/dashboard/perangkat-jaringan';
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const backFromLogItem = document.getElementById('backFromLogItem');
+
+  backFromLogItem.addEventListener('click', () => {
+    window.location.href = '/admin/dashboard/inventaris';
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const backFromLog = document.getElementById('backFromLog');
+
+  backFromLog.addEventListener('click', () => {
     window.location.href = '/admin/dashboard/perangkat-jaringan';
   });
 });
@@ -93,15 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', function () {
   const tambahButton = document.getElementById('tambahJenis');
-  const kembaliButton = document.getElementById('kembali');
-  const dashboard = document.getElementById('dashboard');
-  const formTambah = document.getElementById('formTambah');
 
   tambahButton.addEventListener('click', function () {
-    dashboard.classList.add('d-none');
-    formTambah.classList.remove('d-none');
-
-    formTambah.scrollIntoView({ behavior: 'smooth' });
+    window.location.href = '/admin/dashboard/jenis-perangkat/tambah'
   });
 
   kembaliButton.addEventListener('click', function (e) {
@@ -115,23 +126,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   const tambahTempatButton = document.getElementById('tambahTempat');
-  const kembaliButton = document.getElementById('kembali');
-  const dashboard = document.getElementById('dashboard');
-  const formTambah = document.getElementById('formTambah');
 
   tambahTempatButton.addEventListener('click', function () {
-    dashboard.classList.add('d-none');
-    formTambah.classList.remove('d-none');
+    window.location.href = '/admin/dashboard/tempat/tambah/';
+  });
+});
 
-    formTambah.scrollIntoView({ behavior: 'smooth' });
+document.addEventListener('DOMContentLoaded', () => {
+  const deleteLogItemButtons = document.querySelectorAll('[data-bs-target="#deleteLogItem"]');
+  const confirmDelLogItem = document.getElementById('confirmDelLogItem');
+  let selectedLogId = null;
+  let selectedInventarisId = null;
+
+  deleteLogItemButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      selectedLogId = btn.dataset.id;
+      selectedInventarisId = btn.dataset.inventarisId;
+    });
   });
 
-  kembaliButton.addEventListener('click', function (e) {
-    e.preventDefault();
-    formTambah.classList.add('d-none');
-    dashboard.classList.remove('d-none');
+  confirmDelLogItem.addEventListener('click', () => {
+    if (selectedLogId && selectedInventarisId) {
+      window.location.href = `/admin/dashboard/inventaris/logs/${selectedInventarisId}/hapus/${selectedLogId}`;
+    }
+  });
+});
 
-    dashboard.scrollIntoView({ behavior: 'smooth' });
+document.addEventListener('DOMContentLoaded', () => {
+  const deleteLogButtons = document.querySelectorAll('[data-bs-target="#deleteLog"]');
+  const confirmDeleteLog = document.getElementById('confirmDelLog');
+  let selectedLogId = null;
+  let selectedInventarisId = null;
+
+  deleteLogButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      selectedLogId = btn.dataset.id;
+      selectedInventarisId = btn.dataset.inventarisId;
+    });
+  });
+
+  confirmDeleteLog.addEventListener('click', () => {
+    if (selectedLogId && selectedInventarisId) {
+      window.location.href = `/admin/dashboard/perangkat-jaringan/logs/${selectedInventarisId}/hapus/${selectedLogId}`;
+    }
   });
 });
 
@@ -274,6 +311,55 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  const tampilLog = document.querySelectorAll('#tampilLog');
+  let selectedId = null;
+
+  tampilLog.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      selectedId = btn.dataset.id;
+      window.location.href = '/admin/dashboard/perangkat-jaringan/logs/' + selectedId;
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tampilLogItem = document.querySelectorAll('#tampilLogItem');
+  let selectedId = null;
+
+  tampilLogItem.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      selectedId = btn.dataset.id;
+      window.location.href = '/admin/dashboard/inventaris/logs/' + selectedId;
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tambahLogItem = document.querySelectorAll('#tambahLogItem');
+  let selectedId = null;
+
+  tambahLogItem.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      selectedId = btn.dataset.id;
+      window.location.href = '/admin/dashboard/inventaris/logs/' + selectedId + '/tambah';
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tambahLog = document.querySelectorAll('#tambahLog');
+  let selectedId = null;
+
+  tambahLog.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      selectedId = btn.dataset.id;
+      window.location.href = '/admin/dashboard/perangkat-jaringan/logs/' + selectedId + '/tambah';
+    });
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
   const editBtn = document.querySelectorAll('#edit');
   let selectedId = null;
 
@@ -337,6 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const kondisiSelect = document.getElementById('kondisi');
   const kananDiv = document.getElementById('kanan');
   const kiriDiv = document.getElementById('kiri');
+  const statusSelect = document.getElementById('statusSelect');
 
   function toggleKanan() {
     const selectedOption = kondisiSelect.options[kondisiSelect.selectedIndex];
@@ -346,6 +433,8 @@ document.addEventListener('DOMContentLoaded', function () {
       kananDiv.style.display = 'none';
       kiriDiv.classList.remove('col-md-6');
       kiriDiv.classList.add('col-md-12');
+      statusSelect.disabled = true;
+      statusSelect.value = 3;
     } else {
       kananDiv.style.display = 'block';
       kiriDiv.classList.remove('col-md-12');
@@ -400,36 +489,26 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Ukuran kecil
-const iconSize = [16, 26];
-const iconAnchor = [8, 26];
-const shadowSize = [30, 30];
 
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize,
-  iconAnchor,
-  popupAnchor: [1, -20],
-  shadowSize
+  iconSize: [20, 40],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
 const greenIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  iconSize,
-  iconAnchor,
-  popupAnchor: [1, -20],
-  shadowSize
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
-const blueIcon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
-  iconSize,
-  iconAnchor,
-  popupAnchor: [1, -20],
-  shadowSize
-});
+const blueIcon = new L.Icon.Default();
 
 fetch('/devices')
   .then(response => response.json())
@@ -451,8 +530,8 @@ fetch('/devices')
         </button>
       <br>Lantai ${device.lantai}`;
 
-      if (device.jenis_id.toLowerCase() === '3') {
-        popupContent = `<b style="text-transform: capitalize;">${device.SSID} (AP)</b>
+      if (device.SSID !== '-') {
+        popupContent = `<b style="text-transform: capitalize;">${device.jenis_nama} (${device.SSID})</b>
         <br><img src="/uploads/${device.gambar}" style="width:100px; height:auto; margin:5px 0;" alt="${device.nama}">
         <br><button type="button" class="reset text-decoration-underline" data-bs-toggle="modal" data-bs-target="#${device.id}">
             ${device.tempat}

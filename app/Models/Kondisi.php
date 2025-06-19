@@ -10,5 +10,4 @@ class Kondisi extends Model
     protected $allowedFields = [
         'nama'
     ];
-
 }

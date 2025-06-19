@@ -3,6 +3,9 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px; z-index: 1030;">
+  <img style="height: 100%;" class="ps-3" src="<?= base_url('assets/logo/ULM PNG (1).png') ?>" alt="">
+
+  <h1 class="logo fw-bold pt-2 ps-2">SIPIJAR</h1>
 </nav>
 <div class="container-fluid" style="margin-top: 50px;">
   <div class="row">
@@ -33,7 +36,7 @@
       <div class="row d-flex py-4 flex-row">
         <?php if (!empty($items)): ?>
           <?php foreach ($items as $item): ?>
-            <div class="col-sm-3 d-flex flex-row">
+            <div class="col-sm-3">
               <div class="card text-center">
                 <img src="<?php echo base_url('uploads/' . $item['gambar']); ?>" class="rounded px-2 pt-2"
                   style="height: 150px; object-fit: cover" alt="<?= esc($item['jenis_nama']) ?>">

@@ -3,6 +3,9 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px; z-index: 1030;">
+  <img style="height: 100%;" class="ps-3" src="<?= base_url('assets/logo/ULM PNG (1).png') ?>" alt="">
+
+  <h1 class="logo fw-bold pt-2 ps-2">SIPIJAR</h1>
 </nav>
 
 <div class="container-fluid" style="margin-top: 50px;">
@@ -44,7 +47,8 @@
                   </h5>
                   <div class="d-flex flex-column">
                     <p class="card-text text-capitalize fs-6 m-0">SSID: <?= esc($device['SSID']) ?></p>
-                    <p class="card-text text-capitalize fs-6 m-0"><?= esc($device['tempat']) ?></p>
+                    <p class="card-text text-capitalize fs-6 m-0"><i class="bi bi-geo-fill px-2"></i>
+                      <?= esc($device['tempat']) ?></p>
                     <p class="card-text text-capitalize fs-6 m-0">Status : <?= esc($device['status_nama']) ?></p>
                   </div>
                 </div>
@@ -73,9 +77,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="<?= $modal['id'] ?>">
-            <?= esc($modal['tempat']) ?> -
-            <?= esc($modal['jenis_nama']) ?>
-            <?= esc($modal['merek']) ?>
+            <?php if ($modal['SSID'] !== '-'): ?>
+              <?= esc($modal['tempat']) ?> -
+              <?= esc($modal['jenis_nama']) ?>
+              (<?= esc($modal['SSID']) ?>)
+              <?= esc($modal['merek']) ?>
+            <?php else: ?>
+              <?= esc($modal['tempat']) ?> -
+              <?= esc($modal['jenis_nama']) ?>
+              <?= esc($modal['merek']) ?>
+            <?php endif ?>
           </h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>

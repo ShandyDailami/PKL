@@ -10,6 +10,9 @@ class Tempat extends BaseController
 {
     public function index()
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         $model = new ModelTempat();
         $data = [
             'title' => 'Tempat',
@@ -21,6 +24,9 @@ class Tempat extends BaseController
 
     public function tambah()
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         helper("helper");
 
         $rules = [
@@ -31,7 +37,7 @@ class Tempat extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('error', $this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $model = new ModelTempat();
@@ -40,6 +46,22 @@ class Tempat extends BaseController
         ]);
 
         return redirect()->to('admin/dashboard/tempat')->with('message', 'Data berhasil ditambahkan');
+    }
+
+    public function halamanTambah()
+    {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
+        $data = [
+            'title' => 'Tempat',
+        ];
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        } else {
+            return view('admin/tempat/tambah', $data);
+        }
+        ;
     }
 
     public function halamanUpdate($id)
@@ -59,6 +81,9 @@ class Tempat extends BaseController
 
     public function update($id)
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         helper('form');
 
         $rules = [
@@ -82,6 +107,9 @@ class Tempat extends BaseController
 
     public function hapus($id)
     {
+        if (!session()->has('id')) {
+            return redirect()->to('admin/login');
+        }
         $model = new ModelTempat();
         $tempat = $model->find($id);
         if ($tempat) {

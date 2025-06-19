@@ -3,6 +3,9 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px; z-index: 1030;">
+  <img style="height: 100%;" class="ps-3" src="<?= base_url('assets/logo/ULM.png') ?>" alt="">
+
+  <h1 class="logo fw-bold pt-2 ps-2">SIPIJAR</h1>
 </nav>
 <div class="position-fixed mt-2 me-2 top-0 end-0">
   <?php if (session()->getFlashdata('message')): ?>
@@ -30,8 +33,7 @@
           Perangkat</button>
         <button id="tempat" class="btn text-start btn-main border-0"><i class="bi bi-geo-fill px-2"></i>Tempat</button>
         <button id="tambahInventaris" class="btn text-start btn-main border-0"><i
-            class="bi bi-plus-circle-fill px-2"></i>
-          Tambah Perangkat</button>
+            class="bi bi-plus-circle-fill px-2"></i>Tambah Perangkat</button>
         <a class="btn btn-outline-danger text-start" href="/admin/logout"><i
             class="px-2 bi bi-door-open-fill"></i>Logout</a>
       </div>
@@ -61,9 +63,11 @@
                   <th scope="col">Nama Perangkat</th>
                   <th scope="col">Kata Sandi</th>
                   <th scope="col">Gambar</th>
+                  <th scope="col">Tanggal Perolehan</th>
                   <th scope="col">Status</th>
                   <th scope="col">Lantai</th>
                   <th scope="col">Aksi</th>
+                  <th scope="col">Log History</th>
                 </tr>
               </thead>
               <tbody class="text-center">
@@ -82,6 +86,7 @@
                       <td><?= esc($device['password']) ?></td>
                       <td><img class="img-rounded" src="<?= base_url('uploads/' . $device['gambar']) ?>"
                           style="height: 100px;" alt=""></td>
+                      <td><?= esc($device['tanggal_perolehan']) ?></td>
                       <td><?= esc($device['status_nama']) ?></td>
                       <td><?= esc($device['lantai']) ?></td>
                       <td>
@@ -89,6 +94,10 @@
                           class="btn btn-sm btn-warning">Edit</button>
                         <button class="btn btn-sm btn-danger" data-bs-target="#deleteDevice" data-bs-toggle="modal"
                           data-id="<?= esc($device['id']) ?>">Hapus</button>
+                      </td>
+                      <td>
+                        <button id="tampilLog" data-id="<?= esc($device['id']) ?>" class="btn btn-sm btn-primary">Lihat
+                          log</button>
                       </td>
                     </tr>
 
@@ -137,7 +146,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="<?= $modal['id'] ?>">
-            <?php if ($modal['jenis_nama'] === 'Access Point'): ?>
+            <?php if ($modal['SSID'] !== '-'): ?>
               <?= esc($modal['tempat']) ?> -
               <?= esc($modal['jenis_nama']) ?>
               (<?= esc($modal['SSID']) ?>)

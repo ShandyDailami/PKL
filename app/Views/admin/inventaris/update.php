@@ -3,6 +3,9 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom position-fixed top-0 start-0 end-0"
   style="height: 50px; z-index: 1030;">
+  <img style="height: 100%;" class="ps-3" src="<?= base_url('assets/logo/ULM.png') ?>" alt="">
+
+  <h1 class="logo fw-bold pt-2 ps-2">SIPIJAR</h1>
 </nav>
 
 <div class="position-fixed mt-2 me-2 top-0 end-0">
@@ -72,11 +75,15 @@
                     value="<?= old('password', $inventaris['password']) ?>" placeholder="Masukkan Password Perangkat">
                 </div>
                 <div class="mb-3">
-                  <div class="d-flex"></div>
                   <label for="gambar" class="form-label">Gambar</label>
                   <img class="rounded" src="<?= base_url('uploads/' . $inventaris['gambar']) ?>" style="height: 50px;"
                     alt="">
                   <input type="file" id="gambar" name="gambar" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="tanggal_perolehan" class="form-label">Tanggal Perolehan</label>
+                  <input type="date" class="form-control" name="tanggal_perolehan" id="tanggal_perolehan"
+                    value="<?= $inventaris['tanggal_perolehan'] ?>">
                 </div>
                 <div class="mb-3">
                   <label for="status" class="form-label">Status</label>

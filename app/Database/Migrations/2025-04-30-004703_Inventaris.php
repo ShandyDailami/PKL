@@ -39,6 +39,9 @@ class Inventaris extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'tanggal_perolehan' => [
+                'type' => 'DATE'
+            ],
             'kondisi_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
