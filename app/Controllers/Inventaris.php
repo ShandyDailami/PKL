@@ -262,7 +262,7 @@ class Inventaris extends BaseController
 
             return redirect()
                 ->to('/admin/dashboard/perangkat-jaringan')
-                ->with('message', "Import selesai: <strong>{$importedCount}</strong> data berhasil diimpor, <strong>{$duplicateCount}</strong> data duplikat diabaikan.");
+                ->with('message', "Import selesai: <strong>{$importedCount}</strong> data berhasil diimport, dengan <strong>{$duplicateCount}</strong> data duplikat terdeteksi.");
         }
 
         return redirect()->back()->with('error', 'File tidak valid.');

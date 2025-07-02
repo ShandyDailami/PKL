@@ -1,6 +1,6 @@
 <?= $this->extend('template/main') ?>
 <?= $this->section('content') ?>
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+<div class="background d-flex align-items-center justify-content-center mx-0 px-0" style="min-height: 100vh;">
   <div class="position-fixed mt-2 me-2 top-0 end-0">
     <?php if (session()->getFlashdata('message')): ?>
       <div class="alert alert-success flash-message">
